@@ -1,0 +1,19 @@
+{
+  "name": "movie-app-clientside",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mind28/movie-app-clientside.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mind28/movie-app-clientside/issues"
+  },
+  "homepage": "https://github.com/mind28/movie-app-clientside#readme"
+}
