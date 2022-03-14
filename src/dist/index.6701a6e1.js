@@ -951,21 +951,12 @@ var _indexScss = require("./index.scss");
 // Main component (will eventually use all the others)
 class MyFlixApplication extends _reactDefault.default.Component {
     render() {
-        return(/*#__PURE__*/ _jsxRuntime.jsx("div", {
-            className: "my-flix",
+        return(/*#__PURE__*/ _jsxRuntime.jsx(_mainView.MainView, {
             __source: {
                 fileName: "src/index.jsx",
                 lineNumber: 13
             },
-            __self: this,
-            children: /*#__PURE__*/ _jsxRuntime.jsx("div", {
-                __source: {
-                    fileName: "src/index.jsx",
-                    lineNumber: 14
-                },
-                __self: this,
-                children: "Good morning"
-            })
+            __self: this
         }));
     }
 }
@@ -22905,22 +22896,45 @@ var _react = require("react");
 var _reactDefault = parcelHelpers.interopDefault(_react);
 var _movieCard = require("../movie-card/movie-card");
 var _movieView = require("../movie-view/movie-view");
-class MainView extends React.Component {
+class MainView extends _reactDefault.default.Component {
+    constructor(){
+        super();
+        this.state = {
+            movies: [
+                {
+                    _id: 1,
+                    Title: 'Inception',
+                    Description: 'desc1...',
+                    ImagePath: '...'
+                },
+                {
+                    _id: 2,
+                    Title: 'The Shawshank Redemption',
+                    Description: 'desc2...',
+                    ImagePath: '...'
+                },
+                {
+                    _id: 3,
+                    Title: 'Gladiator',
+                    Description: 'desc3...',
+                    ImagePath: '...'
+                }
+            ],
+            selectedMovie: null
+        };
+    }
+    setSelectedMovie(newSelectedMovie) {
+        this.setState({
+            selectedMovie: newSelectedMovie
+        });
+    }
     render() {
         const { movies , selectedMovie  } = this.state;
-        if (selectedMovie) return(/*#__PURE__*/ _jsxRuntime.jsx(_movieView.MovieView, {
-            movie: selectedMovie,
-            __source: {
-                fileName: "src/components/main-view/main-view.jsx",
-                lineNumber: 9
-            },
-            __self: this
-        }));
         if (movies.length === 0) return(/*#__PURE__*/ _jsxRuntime.jsx("div", {
             className: "main-view",
             __source: {
                 fileName: "src/components/main-view/main-view.jsx",
-                lineNumber: 11
+                lineNumber: 28
             },
             __self: this,
             children: "The list is empty!"
@@ -22929,17 +22943,27 @@ class MainView extends React.Component {
             className: "main-view",
             __source: {
                 fileName: "src/components/main-view/main-view.jsx",
-                lineNumber: 14
+                lineNumber: 31
             },
             __self: this,
-            children: movies.map((movie)=>/*#__PURE__*/ _jsxRuntime.jsx(_movieCard.MovieCard, {
+            children: selectedMovie ? /*#__PURE__*/ _jsxRuntime.jsx(_movieView.MovieView, {
+                movie: selectedMovie,
+                onBackClick: (newSelectedMovie)=>{
+                    this.setSelectedMovie(newSelectedMovie);
+                },
+                __source: {
+                    fileName: "src/components/main-view/main-view.jsx",
+                    lineNumber: 33
+                },
+                __self: this
+            }) : movies.map((movie)=>/*#__PURE__*/ _jsxRuntime.jsx(_movieCard.MovieCard, {
                     movie: movie,
-                    onClick: ()=>{
-                        this.state.selectedMovie = movie;
+                    onMovieClick: (movie1)=>{
+                        this.setSelectedMovie(movie1);
                     },
                     __source: {
                         fileName: "src/components/main-view/main-view.jsx",
-                        lineNumber: 15
+                        lineNumber: 35
                     },
                     __self: this
                 }, movie._id)
@@ -22953,7 +22977,7 @@ class MainView extends React.Component {
   window.$RefreshReg$ = prevRefreshReg;
   window.$RefreshSig$ = prevRefreshSig;
 }
-},{"react/jsx-runtime":"8xIwr","react":"6TuXu","../movie-card/movie-card":"6EiBJ","../movie-view/movie-view":"ikZdr","@parcel/transformer-js/src/esmodule-helpers.js":"6hVxf","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"flLx9"}],"6EiBJ":[function(require,module,exports) {
+},{"react/jsx-runtime":"8xIwr","react":"6TuXu","@parcel/transformer-js/src/esmodule-helpers.js":"6hVxf","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"flLx9","../movie-card/movie-card":"6EiBJ","../movie-view/movie-view":"ikZdr"}],"6EiBJ":[function(require,module,exports) {
 var $parcel$ReactRefreshHelpers$4249 = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
 var prevRefreshReg = window.$RefreshReg$;
 var prevRefreshSig = window.$RefreshSig$;
@@ -22969,15 +22993,18 @@ var _react = require("react");
 var _reactDefault = parcelHelpers.interopDefault(_react);
 class MovieCard extends _reactDefault.default.Component {
     render() {
-        const { movie  } = this.props;
+        const { movie , onMovieClick  } = this.props;
         return(/*#__PURE__*/ _jsxRuntime.jsx("div", {
             className: "movie-card",
+            onClick: ()=>{
+                onMovieClick(movie);
+            },
             __source: {
                 fileName: "src/components/movie-card/movie-card.jsx",
-                lineNumber: 6
+                lineNumber: 7
             },
             __self: this,
-            children: "some title"
+            children: movie.Title
         }));
     }
 }
@@ -23003,7 +23030,7 @@ var _react = require("react");
 var _reactDefault = parcelHelpers.interopDefault(_react);
 class MovieView extends _reactDefault.default.Component {
     render() {
-        const { movie  } = this.props;
+        const { movie , onBackClick  } = this.props;
         return(/*#__PURE__*/ _jsxRuntime.jsxs("div", {
             className: "movie-view",
             __source: {
@@ -23083,6 +23110,17 @@ class MovieView extends _reactDefault.default.Component {
                             children: movie.Description
                         })
                     ]
+                }),
+                /*#__PURE__*/ _jsxRuntime.jsx("button", {
+                    onClick: ()=>{
+                        onBackClick(null);
+                    },
+                    __source: {
+                        fileName: "src/components/movie-view/movie-view.jsx",
+                        lineNumber: 21
+                    },
+                    __self: this,
+                    children: "Back"
                 })
             ]
         }));
